@@ -25,13 +25,19 @@ public class ModelGenerator {
     private String pack;
     private List<ModelField> fields;
     private List<String> alreadyParsedClass;
+    private String modelName;
 
-    public ModelGenerator(Class<?> clazz, String pack) {
+    public ModelGenerator(Class<?> clazz, String pack, String modelName) {
         l = LoggerFactory.getLogger(getClass());
 
         this.alreadyParsedClass = new ArrayList<String>();
         this.clazz = clazz;
         this.fields = new ArrayList<ModelField>();
+        if (modelName != null) {
+            this.modelName = modelName;
+        } else {
+            this.modelName = clazz.getSimpleName();
+        }
         this.pack = pack;
     }
 
@@ -186,7 +192,7 @@ public class ModelGenerator {
     }
 
     private void printHeader(PrintWriter pw) {
-        pw.println("Ext.define('" + pack + "." + clazz.getSimpleName() + "', {");
+        pw.println("Ext.define('" + pack + "." + modelName + "', {");
         pw.println("    extend: 'Ext.data.Model',");
     }
 
@@ -195,7 +201,7 @@ public class ModelGenerator {
      * @return
      */
     private File getFileName() {
-        return new File(clazz.getSimpleName() + ".js");
+        return new File(modelName + ".js");
     }
 
 }

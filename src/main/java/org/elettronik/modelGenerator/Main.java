@@ -45,6 +45,15 @@ public class Main {
                 .isRequired(true)
                 .create("p"));
         
+        options.addOption(
+                OptionBuilder
+                .withArgName("name")
+                .withLongOpt("name")
+                .hasArg(true)
+                .withDescription("Name of generated model")
+                .isRequired(false)
+                .create("n"));
+        
         
         options.addOption(
                 OptionBuilder
@@ -67,7 +76,7 @@ public class Main {
             Class<?> clazz = Class.forName(cl.getOptionValue("m"));
             String pack = cl.getOptionValue("p");
             
-            ModelGenerator gen = new ModelGenerator(clazz, pack);
+            ModelGenerator gen = new ModelGenerator(clazz, pack, cl.getOptionValue("n"));
             gen.generate();
         } catch (Exception ex) {
             if (enableDebug) {
